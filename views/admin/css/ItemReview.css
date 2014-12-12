@@ -1,0 +1,11 @@
+.item-review-browse-message {
+    float:left;
+}
+
+.review-approve {
+    float:right;
+}
+
+#content > form >#show-pending-only-a {
+    float:left;
+}
