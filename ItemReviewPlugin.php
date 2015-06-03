@@ -194,27 +194,6 @@ class ItemReviewPlugin extends Omeka_Plugin_AbstractPlugin
 <?php
         }
     }
-/*
-    public function hookAdminItemsBrowseSimpleEach($args) {
-        $item = $args['item'];
-        $table = $this->_db->getTable('ItemReview');
-        if($reviews = $table->findBy(array('item_id'=>$item->id))) {
-            echo('<p class="item-review-browse-message">Pending Review</p>');
-        }
-    }
-
-    public function hookAdminItemsBrowseDetailedEach($args) {
-        $item = $args['item'];
-        $table = $this->_db->getTable('ItemReview');
-        if($reviews = $table->findBy(array('item_id'=>$item->id))) {
-            echo('<p class="item-review-browse-message">Pending Review</p>');
-            if($this->_isReviewer()) {
-                echo('<a href="'.absolute_url('item-review/approve/item/').$item->id.'"><button class="green button review-approve" id="'.$item->id.'">Approve</button></a>');
-                //todo remove link and do this with ajax
-            }
-        }
-    }
-*/
 
 
     public function hookAdminItemsBrowseSimpleEach($args) {
@@ -225,7 +204,8 @@ class ItemReviewPlugin extends Omeka_Plugin_AbstractPlugin
             echo('<p class="item-review-browse-message">Pending Review</p>');
             if($this->_isReviewer()) {
                 echo('<button title="'.absolute_url('item-review/approval/approve/item/').$itemID.'" class="review-approve" id="'.$item->id.'">Approve</button>');
-                //todo remove link and do this with ajax
+		$csrf = new Omeka_Form_Element_SessionCsrfToken('csrf_token');
+		echo('<script>var csrf_token="'.$csrf->getToken().'"</script>');
             }
         }
     }
@@ -235,13 +215,9 @@ class ItemReviewPlugin extends Omeka_Plugin_AbstractPlugin
         if($reviews = $table->findBy(array('item_id'=>(int)$item->id))) {
             echo('<p class="item-review-panel-message">This item has been flagged for administrative review. It will be made public when it has been reviewed.</p>');
             if($this->_isReviewer()) {
-                //echo('<button class="big green button review-approve" id="$item->id">Approve</button>');
                 echo('<input id="review-approve" class="submit big green button" type="submit" value="Approve for Publication" name="submit">');
-                //todo make this save the item, remove the review flag, and make it public
             }
         }
-
-        //selectively disable public field
     }
 
     public function hookConfig() {

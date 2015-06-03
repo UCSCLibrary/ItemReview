@@ -16,7 +16,7 @@
  */
 class ItemReview_ApprovalController extends Omeka_Controller_AbstractActionController
 {    
-
+  /*
     public function approveAllAction($collection=null) {
         if(is_object($collection))
             $collection = $collection->id;
@@ -33,8 +33,10 @@ class ItemReview_ApprovalController extends Omeka_Controller_AbstractActionContr
         }
         $this->_helper->redirector->gotoUrl('items/browse');
     }
+  */
 
     public function approveAction() {
+      $this->_validatePost();
         $item_id = $this->_getParam('item');
         $this->_approveItem($item_id);
         die('SUCCESS');
@@ -53,8 +55,12 @@ class ItemReview_ApprovalController extends Omeka_Controller_AbstractActionContr
         }
     }
 
-
-
+    private function _validatePost(){
+      $csrf = new Omeka_Form_SessionCsrf;
+      if (!$csrf->isValid($_POST))
+	die('ERROR');      
+      return $csrf;
+    }
 
 
 }
