@@ -204,8 +204,12 @@ class ItemReviewPlugin extends Omeka_Plugin_AbstractPlugin
             echo('<p class="item-review-browse-message">Pending Review</p>');
             if($this->_isReviewer()) {
                 echo('<button title="'.absolute_url('item-review/approval/approve/item/').$itemID.'" class="review-approve" id="'.$item->id.'">Approve</button>');
-		$csrf = new Omeka_Form_Element_SessionCsrfToken('csrf_token');
-		echo('<script>var csrf_token="'.$csrf->getToken().'"</script>');
+                if(version_compare(OMEKA_VERSION,'2.2.1') >= 0){
+                    $csrf = new Omeka_Form_Element_SessionCsrfToken('csrf_token');
+                    echo('<script>var csrf_token="'.$csrf->getToken().'"</script>');
+                } else {
+                    echo('<script>var csrf_token=""</script>');
+                }
             }
         }
     }

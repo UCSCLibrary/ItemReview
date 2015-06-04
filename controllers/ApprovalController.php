@@ -36,7 +36,8 @@ class ItemReview_ApprovalController extends Omeka_Controller_AbstractActionContr
   */
 
     public function approveAction() {
-      $this->_validatePost();
+        if(version_compare(OMEKA_VERSION,'2.2.1') >= 0)
+            $this->_validatePost();
         $item_id = $this->_getParam('item');
         $this->_approveItem($item_id);
         die('SUCCESS');
