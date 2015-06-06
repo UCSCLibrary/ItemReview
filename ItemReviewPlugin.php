@@ -55,7 +55,7 @@ class ItemReviewPlugin extends Omeka_Plugin_AbstractPlugin
     );
 
     public function hookAdminItemsBrowse() {
-      if($this->_isReviewer() && has_loop_records()){
+      if($this->_isReviewer() && has_loop_records('Item')){
             if(isset($_REQUEST['show-pending-review']) && $_REQUEST['show-pending-review'])
                 echo('<a id="show-pending-all-a" href="'.preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']).'"><button id="show-pending-all-button">Show All</button></a>');
             else

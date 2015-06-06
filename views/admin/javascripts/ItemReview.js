@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
 	button = jQuery(this);
 	e.preventDefault();
 	url = jQuery(this).attr('title');
-	response = jQuery.post(url,{csrv_token:csrv_token},function(data){
+	response = jQuery.post(url,{csrf_token:csrf_token},function(data){
 	   if(data.indexOf('SUCCESS')>-1){
 	       button.prop('disabled','disabled');
 	       button.html('Approved');
