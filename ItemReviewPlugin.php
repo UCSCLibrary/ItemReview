@@ -102,22 +102,38 @@ class ItemReviewPlugin extends Omeka_Plugin_AbstractPlugin
         return in_array($user->role,$submitterRoles);
     }
 
+    // This function determines which items should be flagged for review
+    // Currently, it flags items based on user role when they are published
     public function hookBeforeSaveItem($args) {
+	    
+	//if the item has already been approved, move on
         if($this->_approved)
             return;
+            
+	//if the user role does not require approval, move on
         if(!$this->_isSubmitter())
             return;
+	    
+  	//retrieve the new item record
         $item = $args['record'];
+	    
+	//if the item is not going to be public, move on
         if (!$item->public)
             return;
+	    
+	// The "insert" argument tells us whether we are creating a new item
         if($args['insert'] != 1) {
+	    // We are editing an existing item
+	    // Retrieve the old item
             $oldItem = get_record_by_id('Item',$item->id);
+	    // If the old item was not already public, 
+	    // it is being published and must be flagged for review. 
             if(!$oldItem->public) {
-                //old private item going public, flag for review
                 $this->_flagged = true;
             }
         } else  {
-            //new public item flag for review
+            // This is a new item and it is public. 
+	    // Flag it for review.
             $this->_flagged = true;
         }
     }
